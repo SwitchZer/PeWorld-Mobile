@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import {
   FlatList,
@@ -55,7 +54,6 @@ const Home = () => {
     };
 
     setCurrentDate(getCurrentDate());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
   const renderLoader = () => {
@@ -133,7 +131,7 @@ const Home = () => {
       </View>
       <View style={styles.content}>
         <View>
-          <Text style={styles.talent}>Top Talent </Text>
+          <Text style={styles.toptalent}>Top Talent </Text>
         </View>
         <FlatList
           data={worker}
@@ -188,9 +186,9 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '600',
   },
-  talent: {
+  toptalent: {
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: '600',
     color: '#000',
     marginTop: 15,
     marginBottom: 15,

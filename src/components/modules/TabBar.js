@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {IcA, IcMessage, IcSearch} from '../../assets/icons';
 
@@ -46,6 +45,7 @@ function TabBar({state, descriptors, navigation}) {
 
         return (
           <TouchableOpacity
+            key={route.key}
             accessibilityRole="button"
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}

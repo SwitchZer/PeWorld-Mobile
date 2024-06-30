@@ -27,7 +27,7 @@ const CardWorker = ({data}) => {
         <View style={styles.skillCardWrapper}>
           <FlatList
             data={displayedSkills}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={item => item.id}
             renderItem={({item}) => <CardSkill skillname={item} />}
             contentContainerStyle={{paddingVertical: 16}}
             numColumns={2}

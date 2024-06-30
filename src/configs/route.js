@@ -12,7 +12,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabBar from '../components/modules/TabBar';
 import Profile from '../screen/main/Profile';
 import OptionLogin from '../screen/Option';
-import EditProfile from '../screen/main/EditProfile';
+import EditProfileWorker from '../screen/main/EditProfileWorker';
+import SearchWorker from '../screen/main/Search';
 // import {Profile} from '';
 
 const stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ const MainTab = () => {
       tabBar={props => <TabBar {...props} />}
       screenOptions={{headerShown: false}}>
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Search" component={SearchWorker} />
       <Tab.Screen name="Profile" component={ProfileStack} />
       {/* <Tab.Screen name="seting" component={Setting} /> */}
     </Tab.Navigator>
@@ -32,9 +34,13 @@ const MainTab = () => {
 
 const ProfileStack = () => {
   return (
-    <stack.Navigator initialRouteName="Profile">
+    <stack.Navigator
+      initialRouteName="Profile"
+      screenOptions={{
+        headerShown: false,
+      }}>
       <stack.Screen name="Profile" component={Profile} />
-      <stack.Screen name="EditProfile" component={EditProfile} />
+      <stack.Screen name="EditProfileWorker" component={EditProfileWorker} />
     </stack.Navigator>
   );
 };

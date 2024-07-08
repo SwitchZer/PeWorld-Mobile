@@ -14,6 +14,8 @@ import Input from '../../../../components/base/Input';
 import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {register} from '../../../../configs/redux/action/authAction';
+import {useDispatch} from 'react-redux';
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -24,33 +26,14 @@ const SignUp = () => {
     password: '',
   });
 
-  const handleRegister = async () => {
-    if (!form.name || !form.email || !form.phone || !form.password) {
-      Alert.alert('Please fill out all the required fields.');
-      return;
-    }
-    try {
-      const response = await axios.post(
-        `${process.env.API_URL}/workers/register`,
-        form,
-      );
-      navigation.navigate('SignInWorker');
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        console.log('Error response:', error.response.data);
-        Alert.alert(`Error: ${error.response.data.message}`);
-      } else if (error.request) {
-        console.log('Error request:', error.request);
-        Alert.alert('Error: No response received from the server');
-      } else {
-        console.log('Error:', error.message);
-        Alert.alert('An unexpected error occurred. Please try again later.');
-      }
-      throw error;
-    }
-  };
+  const dispatch = useDispatch();
 
+  const handleRegister = e => {
+    e.preventDefault();
+
+    dispatch(register(form));
+    navigation.navigate('SignInWorker');
+  };
   const handleNavigate = () => {
     navigation.navigate('SignInWorker');
   };

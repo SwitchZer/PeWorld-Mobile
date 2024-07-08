@@ -1,6 +1,8 @@
 import React from 'react';
 import MainRouter from './src/configs/route';
+import {Provider} from 'react-redux';
 import {LogLevel, OneSignal} from 'react-native-onesignal';
+import store from './src/configs/redux/store';
 
 const App = () => {
   // Remove this method to stop OneSignal Debugging
@@ -17,7 +19,11 @@ const App = () => {
   OneSignal.Notifications.addEventListener('click', event => {
     console.log('OneSignal: notification clicked:', event);
   });
-  return <MainRouter />;
+  return (
+    <Provider store={store}>
+      <MainRouter />
+    </Provider>
+  );
 };
 
 export default App;

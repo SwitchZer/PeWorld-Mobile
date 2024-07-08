@@ -14,50 +14,27 @@ import Input from '../../../../components/base/Input';
 import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {registerRecruiters} from '../../../../configs/redux/action/authAction';
+import {useDispatch} from 'react-redux';
 
 const SignUp = () => {
   const navigation = useNavigation();
   const [form, setForm] = React.useState({
-    name: '',
     email: '',
-    compnay: '',
-    position: '',
-    phone: '',
     password: '',
+    name: '',
+    phone: '',
+    company: '',
+    postion: '',
   });
 
-  const handleRegister = async () => {
-    if (
-      !form.name ||
-      !form.email ||
-      !form.company ||
-      !form.position ||
-      !form.phone ||
-      !form.password
-    ) {
-      Alert.alert('Please fill out all the required fields.');
-      return;
-    }
-    try {
-      const response = await axios.post(
-        `${process.env.API_URL}/recruiters/register`,
-        form,
-      );
-      navigation.navigate('SignInRecruiter');
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        console.log('Error response:', error.response.data);
-        Alert.alert(`Error: ${error.response.data.message}`);
-      } else if (error.request) {
-        console.log('Error request:', error.request);
-        Alert.alert('Error: No response received from the server');
-      } else {
-        console.log('Error:', error.message);
-        Alert.alert('An unexpected error occurred. Please try again later.');
-      }
-      throw error;
-    }
+  const dispatch = useDispatch();
+
+  const handleRegister = e => {
+    e.preventDefault();
+
+    dispatch(registerRecruiters(form));
+    navigation.navigate('SignInRecruiter');
   };
 
   const handleNavigate = () => {

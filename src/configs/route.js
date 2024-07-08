@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Home from '../screen/main/Home';
 import Option from '../screen/Option';
 import SignInWorker from '../screen/auth/Worker/Sign-In';
@@ -15,32 +15,22 @@ import RecruiterProfile from '../screen/main/RecruiterProfile';
 import OptionLogin from '../screen/Option';
 import EditProfileWorker from '../screen/main/EditProfileWorker';
 import SearchWorker from '../screen/main/Search';
-import api from './api';
-import axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux';
+import {checkRole} from './redux/action/checkRoleAction';
 // import {Profile} from '';
 
 const stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTab = () => {
-  const [roles, setRoles] = React.useState('Worker');
-
-  React.useEffect(() => {
-    const checkRole = async () => {
-      try {
-        const res = await axios.get(`${process.env.API_URL}/auth/check-role`);
-
-        const {role} = res.data.data.data.role;
-
-        setRoles(role);
-      } catch (error) {
-        console.error('Failed to check user role:', error);
-        setRoles('worker');
-      }
-    };
-
-    checkRole();
-  }, []);
+  const dispatch = useDispatch();
+  const {token} = useSelector(state => state.auth);
+  const {role} = useSelector(state => state.checkRole);
+  useEffect(() => {
+    if (token) {
+      dispatch(checkRole());
+    }
+  }, [token, dispatch]);
   return (
     <Tab.Navigator
       tabBar={props => <TabBar {...props} />}
@@ -51,7 +41,7 @@ const MainTab = () => {
       <Tab.Screen
         name="Profile"
         component={
-          roles === 'recruiter' ? RecruiterProfileStack : WorkerProfileStack
+          role === 'recruiter' ? RecruiterProfileStack : WorkerProfileStack
         }
       />
 

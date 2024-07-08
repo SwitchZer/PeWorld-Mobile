@@ -14,32 +14,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CardSkill from '../../../components/modules/CardSkills';
 import CardWorker from '../../../components/modules/CardWorker';
 import {endEvent} from 'react-native/Libraries/Performance/Systrace';
+import {useDispatch, useSelector} from 'react-redux';
+import {getWorker} from '../../../configs/redux/action/workerAction';
 
 const SearchScreen = () => {
-  const [workers, setWorkers] = useState([]);
+  const dispatch = useDispatch();
+  const talent = useSelector(state => state.worker.workers);
   const [loading, setLoading] = React.useState(false);
-  const [params, setParams] = React.useState({
+  const [searchInput, setSearchInput] = useState('');
+  // const [selectedSort, setSelectedSort] = useState('');
+  // const [selectedSortBy, setSelectedSortBy] = useState('');
+  const [params, setParams] = useState({
+    limit: 9,
     page: 1,
-    limit: 10,
     search: '',
+    sort: 'created_at',
+    sortBy: 'DESC',
   });
 
-  const getWorkers = async () => {
-    try {
-      const res = await axios.get(`${process.env.API_URL}/workers`, {
-        params: {
-          page: params.page,
-          limit: params.limit,
-          search: params.search,
-        },
-      });
-
-      const {data} = res.data;
-      setWorkers(current => [...current, ...data]);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(getWorker(params));
+  }, [dispatch, params]);
 
   const renderLoader = () => {
     return loading && <ActivityIndicator size="large" color="#00ff00" />;
@@ -52,30 +47,51 @@ const SearchScreen = () => {
     }));
   };
 
-  // const handleSearch = () => {
-  //   setParams(prevParams => ({
-  //     ...prevParams,
-  //     page: 1,
-  //     search: searchTerm,
-  //   }));
-  //   getWorkers();
+  const handleSearchInputChange = e => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearch = () => {
+    setParams({
+      ...params,
+      page: 1,
+      search: searchInput,
+      // sort: selectedSort,
+      // sortBy: selectedSortBy,
+    });
+  };
+
+  // const handleSortChange = e => {
+  //   const selectedValue = e.target.value;
+  //   setSelectedSort(selectedValue);
+  //   setParams({
+  //     ...params,
+  //     page: 1, // Reset the page to 1
+  //     sort: selectedValue,
+  //   });
   // };
 
-  useEffect(() => {
-    getWorkers();
-  }, [params]);
+  // const handleSortByChange = e => {
+  //   const selectedValue = e.target.value;
+  //   setSelectedSortBy(selectedValue);
+  //   setParams({
+  //     ...params,
+  //     page: 1, // Reset the page to 1
+  //     sortBy: selectedValue,
+  //   });
+  // };
   return (
     <View style={styles.container}>
       <TextInput
         type="text"
-        value={params.search}
-        onChangeText={value => setParams({...params, search: value})}
+        value={searchInput}
+        onChangeText={handleSearchInputChange}
       />
       <TouchableOpacity onPress={() => handleSearch}>
         <Text style={styles.formTitle}>Search Worker</Text>
       </TouchableOpacity>
       <FlatList
-        data={workers}
+        data={talent}
         keyExtractor={item => item.id}
         renderItem={({item}) => <CardWorker data={item} />}
         ListFooterComponent={renderLoader}

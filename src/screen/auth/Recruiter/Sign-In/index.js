@@ -14,31 +14,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {loginUser} from '../../../../configs/redux/action/authAction';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [form, setForm] = React.useState({
     email: '',
     password: '',
   });
 
-  const handleLogin = async () => {
-    if (!form.email || !form.password) {
-      Alert.alert('Please fill out all the required fields.');
-      return;
-    }
-    try {
-      const res = await axios.post(`${process.env.API_URL}/auth/login`, form);
-      console.log(res.data);
-      const {data} = res.data;
-      await AsyncStorage.setItem('token', data.token);
-      navigation.navigate('MainTab');
-    } catch (error) {
-      const messageErr = error.response?.data?.message;
-      console.log(messageErr);
-      Alert.alert(messageErr || 'terjadi kesalahan');
-    }
+  const handleSubmit = async e => {
+    e.preventDefault();
+    dispatch(loginUser(form));
+    navigation.navigate('MainTab');
   };
+
   const handleNavigate = () => {
     navigation.navigate('SignUpRecruiter');
   };
@@ -75,7 +67,7 @@ const SignIn = () => {
             />
           </View>
           <Text style={styles.forgotPassword}>Forgot Your Password?</Text>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
             <Text style={styles.loginButtonText}>Sign In</Text>
           </TouchableOpacity>
           <Text style={styles.registerText}>

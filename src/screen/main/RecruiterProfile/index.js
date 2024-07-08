@@ -22,65 +22,14 @@ const Profile = () => {
   const [toggle, setToggle] = React.useState(1);
   const navigation = useNavigation();
 
-  const getPortfolio = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-
-      const res = await axios.get(`${process.env.API_URL}/portfolio`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setPortofolio(res.data.data);
-      console.log(setPortofolio);
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-
-        Alert.alert(
-          'Error Fetching Portfolio',
-          `Error ${error.response.status}: ${error.response.data.message}`,
-        );
-      } else if (error.request) {
-        console.log(error.request);
-        Alert.alert('Error Fetching Portfolio', 'No response from the server');
-      } else {
-        console.log('Error', error.message);
-        Alert.alert('Error Fetching Portfolio', error.message);
-      }
-    }
-  };
-
-  const getSkill = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-
-      const res = await axios.get(`${process.env.API_URL}/skills/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setSkill(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getProfile = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const res = await axios.get(
-        `${process.env.API_URL}/workers/profile/self`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await axios.get(`${process.env.API_URL}/recruiters/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       setProfile(res.data.data);
     } catch (error) {
       console.warn(error);
@@ -92,13 +41,11 @@ const Profile = () => {
   };
 
   const handleNavigate = () => {
-    navigation.navigate('EditProfileWorker');
+    navigation.navigate('EditProfileRecruiter');
   };
 
   React.useEffect(() => {
     getProfile();
-    getSkill();
-    getPortfolio();
   }, []);
 
   return (
@@ -120,25 +67,22 @@ const Profile = () => {
             </Text>
           </View>
           <View style={styles.titleWrapper}>
-            <Text>{profile.job_desk || 'Worker Job Desk'}</Text>
+            <Text>{profile.position || 'Position'}</Text>
           </View>
           <View style={styles.locationWrapper}>
             {/* <Image
-          resizeMode="auto"
-          source={{
-            uri: '',
-          }}
-          style={styles.locationIcon}
-        /> */}
+            resizeMode="auto"
+            source={{
+              uri: '',
+            }}
+            style={styles.locationIcon}
+          /> */}
             <View style={styles.locationText}>
-              <Text>{profile.domicile || 'Worker Domicile'}</Text>
+              <Text>{profile.city || 'Domicile'}</Text>
             </View>
           </View>
-          <View style={styles.talentLabel}>
-            <Text>{profile.workplace || 'Worker Work Place'}</Text>
-          </View>
           <View style={styles.description}>
-            <Text>{profile.description || 'Worker Description'}</Text>
+            <Text>{profile.description || 'Description'}</Text>
           </View>
           <TouchableOpacity style={styles.hireButton} onPress={handleNavigate}>
             <Text style={{color: 'white', padding: 13, fontSize: 22}}>
@@ -157,82 +101,6 @@ const Profile = () => {
               numColumns={2}
               columnWrapperStyle={{justifyContent: 'space-between'}}
             />
-          </View>
-        </View>
-        <View style={styles.profileTabContainer}>
-          <View style={{}}>
-            <View style={styles.tabContainer}>
-              <TouchableOpacity
-                style={styles.tab}
-                onPress={() => handleToggle(1)}>
-                <Text
-                  style={
-                    toggle === 1 ? styles.activeTabText : styles.inactiveTabText
-                  }>
-                  Portfolio
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.tab}
-                onPress={() => handleToggle(2)}>
-                <Text
-                  style={
-                    toggle === 2 ? styles.activeTabText : styles.inactiveTabText
-                  }>
-                  Pengalaman Kerja
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {toggle === 1 && (
-              <View style={styles.contentContainer}>
-                <View style={styles.list}>
-                  {portfolio.map(item => (
-                    <TouchableOpacity
-                      key={item.id}
-                      onPress={() => handleNavigate(item.link_repository)}>
-                      <Image source={{uri: item.image}} style={styles.image} />
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {toggle === 2 && (
-              <View style={styles.contentContainer}>
-                <View style={styles.list}>
-                  {/* <FlatList
-                    // data={experience}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) => (
-                      <View style={styles.experienceContainer}>
-                        <Image
-                          source={require('../../../assets/default-image.png')}
-                          style={styles.companyLogo}
-                        />
-                        <View style={styles.experienceDetails}>
-                          <Text style={styles.positionText}>
-                            {item.position}
-                          </Text>
-                          <Text style={styles.companyText}>{item.company}</Text>
-                          <View style={styles.dateContainer}>
-                            <Text style={styles.dateText}>
-                              {item.work_month}
-                            </Text>
-                            <Text style={styles.dateText}>
-                              {item.work_year}
-                            </Text>
-                          </View>
-                          <Text style={styles.descriptionText}>
-                            {item.description}
-                          </Text>
-                        </View>
-                      </View>
-                    )}
-                  /> */}
-                </View>
-              </View>
-            )}
           </View>
         </View>
       </ScrollView>

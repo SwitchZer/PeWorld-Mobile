@@ -32,7 +32,7 @@ const ProfilePortofolio = () => {
     try {
       const token = await AsyncStorage.getItem('token');
 
-      await axios.post(`${process.env.API_URL}/portfolio`, portfolio, {
+      await axios.post(`${process.env.API_URL}/portofolio`, portfolio, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,7 +82,7 @@ const ProfilePortofolio = () => {
       });
 
       const result = await axios.post(
-        'https://fwm17-be-peword.vercel.app/v1/upload',
+        `${process.env.API_URL}/upload`,
         formData,
         {
           headers: {
@@ -96,7 +96,11 @@ const ProfilePortofolio = () => {
       console.log(result.data);
       Alert.alert('Success Add Photo');
     } catch (error) {
-      console.log(error?.response.data);
+      console.log('Error response:', error.response);
+      console.log('Error data:', error.response.data);
+      console.log('Error status:', error.response.status);
+      console.log('Error headers:', error.response.headers);
+      Alert.alert('Error adding photo:', error.message);
     }
   };
 

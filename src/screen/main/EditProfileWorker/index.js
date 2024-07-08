@@ -90,11 +90,14 @@ const EditProfileWorker = () => {
   const getProfile = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const res = await axios.get(`${process.env.API_URL}/workers/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.get(
+        `${process.env.API_URL}/workers/profile/self`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       setProfile(res.data.data);
     } catch (error) {
       console.warn(error);
@@ -193,7 +196,7 @@ const EditProfileWorker = () => {
       console.log(result.data);
       Alert.alert('Success Edit Photo');
     } catch (error) {
-      console.log(error?.response.data);
+      console.log(error.response.data);
     }
   };
 

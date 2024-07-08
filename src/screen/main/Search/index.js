@@ -13,11 +13,11 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CardSkill from '../../../components/modules/CardSkills';
 import CardWorker from '../../../components/modules/CardWorker';
+import {endEvent} from 'react-native/Libraries/Performance/Systrace';
 
 const SearchScreen = () => {
   const [workers, setWorkers] = useState([]);
   const [loading, setLoading] = React.useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [params, setParams] = React.useState({
     page: 1,
     limit: 10,
@@ -52,14 +52,14 @@ const SearchScreen = () => {
     }));
   };
 
-  const handleSearch = () => {
-    setParams(prevParams => ({
-      ...prevParams,
-      page: 1,
-      search: searchTerm,
-    }));
-    getWorkers();
-  };
+  // const handleSearch = () => {
+  //   setParams(prevParams => ({
+  //     ...prevParams,
+  //     page: 1,
+  //     search: searchTerm,
+  //   }));
+  //   getWorkers();
+  // };
 
   useEffect(() => {
     getWorkers();
@@ -68,8 +68,8 @@ const SearchScreen = () => {
     <View style={styles.container}>
       <TextInput
         type="text"
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+        value={params.search}
+        onChangeText={value => setParams({...params, search: value})}
       />
       <TouchableOpacity onPress={() => handleSearch}>
         <Text style={styles.formTitle}>Search Worker</Text>

@@ -33,7 +33,7 @@ const ProfileExperience = () => {
     try {
       const token = await AsyncStorage.getItem('token');
       const response = await axios.post(
-        `https://fwm17-be-peword.vercel.app/v1/experience`,
+        `${process.env.API_URL}/experience`,
         experience,
         {
           headers: {

@@ -39,7 +39,7 @@ function TabBar({state, descriptors, navigation}) {
             return <IcA stroke={isFocused ? '#673ab7' : '#222'} />;
           if (label === 'profile')
             return <IcMessage stroke={isFocused ? '#673ab7' : '#222'} />;
-          if (label === 'seting')
+          if (label === 'search')
             return <IcSearch stroke={isFocused ? '#673ab7' : '#222'} />;
         };
 

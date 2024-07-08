@@ -5,9 +5,9 @@ import CardSkill from './CardSkills';
 // import SkillCard from './SkillCard';
 
 const CardWorker = ({data}) => {
-  const skills = data.skills;
-  const displayedSkills = skills.slice(0, 2);
-  const overflowCount = skills.length - displayedSkills.length;
+  // const skills = data.skills;
+  // const displayedSkills = skills.slice(0, 2);
+  // const overflowCount = skills.length - displayedSkills.length;
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
@@ -25,7 +25,7 @@ const CardWorker = ({data}) => {
         <Text style={styles.name}>{data?.name}</Text>
         <Text style={styles.role}>Web Developer</Text>
         <View style={styles.skillCardWrapper}>
-          <FlatList
+          {/* <FlatList
             data={displayedSkills}
             keyExtractor={item => item.id}
             renderItem={({item}) => <CardSkill skillname={item} />}
@@ -37,7 +37,7 @@ const CardWorker = ({data}) => {
             <View style={[styles.overflow, {backgroundColor: '#999'}]}>
               <Text style={{color: 'white'}}>+{overflowCount}</Text>
             </View>
-          )}
+          )} */}
         </View>
       </View>
     </View>

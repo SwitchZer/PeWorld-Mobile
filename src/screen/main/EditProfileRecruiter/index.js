@@ -7,90 +7,28 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  FlatList,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {useNavigation} from '@react-navigation/native';
-import ProfileExperience from '../../../components/modules/Profile/ProfileExperience';
-import ProfilePortofolio from '../../../components/modules/Profile/ProfilePortofolio';
-import CardSkill from '../../../components/modules/CardSkills';
+import {getProfile} from '../../../configs/redux/action/recruiterAction';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchProfile} from '../../../configs/redux/action/editprofileAction';
-import {fetchSkills} from '../../../configs/redux/action/fetchSkillAction';
 
-const EditProfileWorker = () => {
+const EditProfileRecruiter = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [photo, setPhoto] = React.useState(null);
-  const [skill, setSkill] = React.useState([]);
-  const [skillForm, setSkillForm] = React.useState('');
-
   const {profile, loading, error} = useSelector(state => state.profile);
-  const [editProfile, setEditProfile] = React.useState({
-    name: '',
-    job_desk: '',
-    domicile: '',
-    workplace: '',
+  const [form, setForm] = React.useState({
+    company: '',
+    position: '',
+    city: '',
     description: '',
+    instagram: '',
+    phone: '',
+    linkedin: '',
   });
-
-  const getSkill = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`${process.env.API_URL}/skills`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setSkill(response.data.data);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-
-  const handleAddSkill = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-
-      const res = await axios.post(
-        `${process.env.API_URL}/skills`,
-        {skill_name: skillForm},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      Alert.alert('Success Add Skill');
-      setSkillForm('');
-      getSkill();
-    } catch (error) {
-      console.log(error?.response.data);
-    }
-  };
-
-  const handleDeleteSkill = async id => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-
-      await axios.delete(`${process.env.API_URL}/skills/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      Alert.alert('Skill Succesfully deleted');
-
-      getSkill();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleChageImageLibrary = async () => {
     try {
@@ -126,7 +64,7 @@ const EditProfileWorker = () => {
       formData.append('photo', dataImage);
 
       const result = await axios.put(
-        `${process.env.API_URL}/workers/profile/photo`,
+        `${process.env.API_URL}/recruiters/profile/photo`,
         formData,
         {
           headers: {
@@ -176,7 +114,7 @@ const EditProfileWorker = () => {
       formData.append('photo', dataImage);
 
       const result = await axios.put(
-        `${process.env.API_URL}/workers/profile/photo`,
+        `${process.env.API_URL}/recruiters/profile/photo`,
         formData,
         {
           headers: {
@@ -196,8 +134,8 @@ const EditProfileWorker = () => {
     try {
       const token = await AsyncStorage.getItem('token');
       const response = await axios.put(
-        `${process.env.API_URL}/workers/profile`,
-        editProfile,
+        `${process.env.API_URL}/recruiters/profile`,
+        form,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -222,23 +160,25 @@ const EditProfileWorker = () => {
   };
 
   const handleCancel = () => {
-    navigation.navigate('Profile');
+    navigation.navigate('RecruiterProfile');
   };
 
   useEffect(() => {
     if (profile) {
-      setEditProfile({
-        name: profile.name || '',
-        job_desk: profile.job_desk || '',
-        domicile: profile.domicile || '',
-        workplace: profile.workplace || '',
+      setForm({
+        company: profile.company || '',
+        position: profile.position || '',
+        city: profile.city || '',
         description: profile.description || '',
+        instagram: profile.instagram || '',
+        phone: profile.phone || '',
+        linkedin: profile.linkedin || '',
       });
     }
   }, [profile]);
 
   useEffect(() => {
-    dispatch(fetchProfile());
+    dispatch(getProfile());
   }, [dispatch]);
 
   return (
@@ -268,11 +208,11 @@ const EditProfileWorker = () => {
         </View>
         <View style={styles.nameWrapper}>
           <Text style={{fontWeight: 'bold', fontSize: 30, color: 'black'}}>
-            {profile.name}
+            {profile.company}
           </Text>
         </View>
         <View style={styles.titleWrapper}>
-          <Text>{profile.job_desk || '-'}</Text>
+          <Text>{profile.position || '-'}</Text>
         </View>
         <View style={styles.locationWrapper}>
           {/* <Image
@@ -283,64 +223,67 @@ const EditProfileWorker = () => {
           style={styles.locationIcon}
         /> */}
           <View style={styles.locationText}>
-            <Text>{profile.domicile || '-'}</Text>
+            <Text>{profile.city || '-'}</Text>
           </View>
         </View>
         <View style={styles.talentLabel}>
-          <Text>{profile.workplace || '-'}</Text>
+          <Text>{profile.description || '-'}</Text>
         </View>
       </View>
       <View style={styles.containerEdit}>
         <Text style={{fontWeight: 'bold', fontSize: 30, color: 'black'}}>
           Data Diri
         </Text>
-        <Text style={styles.label}>Name</Text>
+        <Text style={styles.label}>Company Name</Text>
         <TextInput
-          label="Name"
           style={styles.input}
-          value={editProfile.name}
-          onChangeText={value => setEditProfile({...editProfile, name: value})}
-          placeholder="Name"
+          value={form.company}
+          onChangeText={value => setForm({...form, company: value})}
+          placeholder="Company"
         />
-        <Text style={styles.label}>Job Title</Text>
+        <Text style={styles.label}>Position</Text>
         <TextInput
-          label="Job Title"
           style={styles.input}
-          value={editProfile.job_desk}
-          onChangeText={value =>
-            setEditProfile({...editProfile, job_desk: value})
-          }
-          placeholder="Job Title"
+          value={form.position}
+          onChangeText={value => setForm({...form, position: value})}
+          placeholder="Position"
         />
         <Text style={styles.label}>Domicile</Text>
         <TextInput
-          label="Domicile"
           style={styles.input}
-          value={editProfile.domicile}
-          onChangeText={value =>
-            setEditProfile({...editProfile, domicile: value})
-          }
+          value={form.city}
+          onChangeText={value => setForm({...form, city: value})}
           placeholder="Domicile"
-        />
-        <Text style={styles.label}>Work Place</Text>
-        <TextInput
-          label="Work Place"
-          style={styles.input}
-          value={editProfile.workplace}
-          onChangeText={value =>
-            setEditProfile({...editProfile, workplace: value})
-          }
-          placeholder="Work Place"
         />
         <Text style={styles.label}>Description</Text>
         <TextInput
-          label="Description"
+          multiline={true}
+          numberOfLines={10}
           style={styles.input}
-          value={editProfile.description}
-          onChangeText={value =>
-            setEditProfile({...editProfile, description: value})
-          }
+          value={form.description}
+          onChangeText={value => setForm({...form, description: value})}
           placeholder="Description"
+        />
+        <Text style={styles.label}>Instagram</Text>
+        <TextInput
+          style={styles.input}
+          value={form.instagram}
+          onChangeText={value => setForm({...form, instagram: value})}
+          placeholder="Work Place"
+        />
+        <Text style={styles.label}>Phone</Text>
+        <TextInput
+          style={styles.input}
+          value={form.phone}
+          onChangeText={value => setForm({...form, phone: value})}
+          placeholder="Work Place"
+        />
+        <Text style={styles.label}>Instagram</Text>
+        <TextInput
+          style={styles.input}
+          value={form.linkedin}
+          onChangeText={value => setForm({...form, linkedin: value})}
+          placeholder="Work Place"
         />
       </View>
       <TouchableOpacity style={styles.hireButton} onPress={handleEditProfile}>
@@ -349,43 +292,6 @@ const EditProfileWorker = () => {
       <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
         <Text>Cancel</Text>
       </TouchableOpacity>
-      <View style={styles.containerEdit}>
-        <Text style={{fontWeight: 'bold', fontSize: 30, color: 'black'}}>
-          Skill
-        </Text>
-        <TextInput
-          label="Skill"
-          style={styles.input}
-          value={skillForm}
-          onChangeText={value => setSkillForm(value)}
-          placeholder="Skills Name"
-        />
-        <TouchableOpacity style={styles.skillButton} onPress={handleAddSkill}>
-          <Text style={{color: 'white', padding: 13, fontSize: 22}}>
-            Add SKill
-          </Text>
-        </TouchableOpacity>
-        <View style={{marginTop: 10}}>
-          <Text>Note: Clicked Skill Will be Deleted</Text>
-          <FlatList
-            data={skill}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => (
-              <TouchableOpacity onPress={() => handleDeleteSkill(item.id)}>
-                <View style={[styles.containerSkill]}>
-                  <Text style={{color: '#fff', fontWeight: '800'}}>
-                    {item.skill_name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      </View>
-
-      <ProfileExperience />
-
-      <ProfilePortofolio />
     </ScrollView>
   );
 };
@@ -470,6 +376,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Open Sans, sans-serif',
     marginTop: 29,
   },
+  cancelButton: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderColor: '#5E50A1',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginTop: 20,
+    marginHorizontal: 10,
+    alignItems: 'center',
+    whiteSpace: 'nowrap',
+    justifyContent: 'center',
+    font: '700 16px Open Sans, sans-serif',
+  },
   hireButton: {
     borderRadius: 4,
     backgroundColor: '#5E50A1',
@@ -480,62 +399,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     font: '700 16px Open Sans, sans-serif',
   },
-  skillButton: {
-    borderRadius: 4,
-    backgroundColor: '#FBB017',
-    marginTop: 20,
-    marginHorizontal: 10,
-    alignItems: 'center',
-    whiteSpace: 'nowrap',
-    justifyContent: 'center',
-    font: '700 16px Open Sans, sans-serif',
-  },
-  skillLabel: {
-    color: '#1F2A36',
-    marginTop: 41,
-    font: '600 18px/133% Open Sans, sans-serif',
-  },
-  skillsContainer: {
-    display: 'flex',
-    marginTop: 25,
-    alignItems: 'stretch',
-    gap: 6,
-    fontSize: 12,
-    color: '#FFF',
-    fontWeight: '600',
-    whiteSpace: 'nowrap',
-  },
-  skillBox: {
-    fontFamily: 'Open Sans, sans-serif',
-    borderRadius: 4,
-    borderColor: 'rgba(251, 176, 23, 1)',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    backgroundColor: 'rgba(251, 176, 23, 0.60)',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    padding: '8px 14px',
-  },
-  contactItem: {
-    display: 'flex',
-    marginTop: 60,
-    alignItems: 'stretch',
-    gap: 20,
-    whiteSpace: 'nowrap',
-  },
-  contactImage: {
-    position: 'relative',
-    width: 24,
-    flexShrink: 0,
-    aspectRatio: 1,
-  },
-  contactTextWrapper: {
-    fontFamily: 'Open Sans, sans-serif',
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    margin: 'auto 0',
-  },
+
   label: {
     marginTop: 25,
     fontSize: 12,
@@ -551,19 +415,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 14,
   },
-  cancelButton: {
-    padding: 15,
-    backgroundColor: 'white',
-    borderColor: '#5E50A1',
-    borderWidth: 1,
-    borderRadius: 4,
-    marginTop: 20,
-    marginHorizontal: 10,
-    alignItems: 'center',
-    whiteSpace: 'nowrap',
-    justifyContent: 'center',
-    font: '700 16px Open Sans, sans-serif',
-  },
 });
 
-export default EditProfileWorker;
+export default EditProfileRecruiter;

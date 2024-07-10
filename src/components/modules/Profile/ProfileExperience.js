@@ -79,23 +79,23 @@ const ProfileExperience = () => {
         onChangeText={value => setExperience({...experience, company: value})}
         placeholder="Company Name"
       />
-      <Text style={styles.label}>Month</Text>
+      <Text style={styles.label}>Start Work</Text>
       <TextInput
-        label="Month"
+        label="Start Work"
         style={styles.input}
         value={experience.work_month}
         onChangeText={value =>
           setExperience({...experience, work_month: value})
         }
-        placeholder="Month"
+        placeholder="Start Work"
       />
-      <Text style={styles.label}>Year</Text>
+      <Text style={styles.label}>End Work</Text>
       <TextInput
-        label="Year"
+        label="End Work"
         style={styles.input}
         value={experience.work_year}
         onChangeText={value => setExperience({...experience, work_year: value})}
-        placeholder="Year"
+        placeholder="End Work"
       />
       <Text style={styles.label}>Description</Text>
       <TextInput

@@ -5,27 +5,32 @@ import {
   StyleSheet,
   Text,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import CardWorker from '../../../components/modules/CardWorker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {Path, Svg} from 'react-native-svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
   const [currentDate, setCurrentDate] = React.useState('');
   const [worker, setWorker] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [params, setParams] = React.useState({
     page: 1,
     limit: 10,
+    sort: 'created_at',
+    sortBy: 'ASC',
   });
 
   const getWorker = async () => {
     try {
       setLoading(true);
       const token = await AsyncStorage.getItem('token');
-      const res = await axios.get(`${process.env.API_URL}/workers`, {
+      const res = await axios.get(`${process.env.API_URL}/workers/`, {
         params,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -135,8 +140,15 @@ const Home = () => {
         </View>
         <FlatList
           data={worker}
-          renderItem={({item}) => <CardWorker data={item} />}
           keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('DetailWorkers', {id: item.id})
+              }>
+              <CardWorker data={item} />
+            </TouchableOpacity>
+          )}
           ListFooterComponent={renderLoader}
           onEndReached={loadMoreItem}
           onEndReachedThreshold={0}

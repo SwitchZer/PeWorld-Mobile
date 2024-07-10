@@ -74,12 +74,7 @@ const ProfilePortofolio = () => {
 
       console.log(dataImage);
 
-      formData.append('file', {
-        uri: data.uri,
-        name: data.fileName,
-        filename: data.fileName,
-        type: data.type,
-      });
+      formData.append('file', dataImage);
 
       const result = await axios.post(
         `${process.env.API_URL}/upload`,
@@ -93,7 +88,7 @@ const ProfilePortofolio = () => {
 
       const image = result.data.data.file_url;
       setPortfolio({...portfolio, image: image});
-      console.log(result.data);
+      console.log(result.setPortfolio);
       Alert.alert('Success Add Photo');
     } catch (error) {
       console.log('Error response:', error.response);

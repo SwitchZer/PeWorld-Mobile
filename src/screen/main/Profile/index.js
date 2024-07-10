@@ -14,78 +14,26 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import CardSkill from '../../../components/modules/CardSkills';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+import {getWorkerProfile} from '../../../configs/redux/action/profileAction';
+import {fetchSkills} from '../../../configs/redux/action/fetchSkillAction';
+import {getMyPortfolio} from '../../../configs/redux/action/portfolioAction';
+import {getMyExperience} from '../../../configs/redux/action/experienceAction';
 
 const Profile = () => {
-  const [portfolio, setPortofolio] = React.useState([]);
-  const [profile, setProfile] = React.useState([]);
-  const [skill, setSkill] = React.useState([]);
+  const dispatch = useDispatch();
   const [toggle, setToggle] = React.useState(1);
   const navigation = useNavigation();
 
-  const getPortfolio = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
+  const profile = useSelector(state => state.profile.profile);
+  const {data} = useSelector(state => state.skills);
+  const {myPortfolio} = useSelector(state => state.portfolio);
+  const {myExperience} = useSelector(state => state.experience);
 
-      const res = await axios.get(`${process.env.API_URL}/portfolio`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setPortofolio(res.data.data);
-      console.log(setPortofolio);
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-
-        Alert.alert(
-          'Error Fetching Portfolio',
-          `Error ${error.response.status}: ${error.response.data.message}`,
-        );
-      } else if (error.request) {
-        console.log(error.request);
-        Alert.alert('Error Fetching Portfolio', 'No response from the server');
-      } else {
-        console.log('Error', error.message);
-        Alert.alert('Error Fetching Portfolio', error.message);
-      }
-    }
-  };
-
-  const getSkill = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-
-      const res = await axios.get(`${process.env.API_URL}/skills/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setSkill(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getProfile = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const res = await axios.get(
-        `${process.env.API_URL}/workers/profile/self`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setProfile(res.data.data);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(getMyPortfolio());
+    dispatch(getMyExperience());
+  }, [dispatch]);
 
   const handleToggle = id => {
     setToggle(id);
@@ -95,70 +43,84 @@ const Profile = () => {
     navigation.navigate('EditProfileWorker');
   };
 
-  React.useEffect(() => {
-    getProfile();
-    getSkill();
-    getPortfolio();
-  }, []);
+  const handleNavigateHistory = () => {
+    navigation.navigate('HistoryHireWorkers');
+  };
+
+  useEffect(() => {
+    dispatch(getWorkerProfile());
+    dispatch(fetchSkills());
+  }, [dispatch]);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <Image
-            source={
-              profile.photo
-                ? {uri: profile.photo}
-                : require('../../../assets/default-image.png')
-            }
-            resizeMode="auto"
-            style={styles.profileImage}
-          />
-          <View style={styles.nameWrapper}>
-            <Text style={{fontWeight: 'bold', fontSize: 30, color: 'black'}}>
-              {profile.name}
-            </Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.profileContainer}>
+          <View style={styles.profileDetails}>
+            <Image
+              source={{uri: `${profile.photo}`}}
+              style={styles.profileImage}
+            />
+            <View style={styles.profileText}>
+              <Text style={{fontWeight: 600, fontSize: 22, color: '#1F2A36'}}>
+                {profile.name}
+              </Text>
+              <Text style={{fontWeight: 400, fontSize: 14, color: '#1F2A36'}}>
+                {profile.job_desk}
+              </Text>
+              <View
+                style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
+                <Text style={{fontWeight: 400, fontSize: 14, color: '#9EA0A5'}}>
+                  {profile.domicile}
+                </Text>
+              </View>
+              <Text style={{fontWeight: 400, fontSize: 14, color: '#9EA0A5'}}>
+                {profile.workplace}
+              </Text>
+              <Text style={{fontWeight: 400, fontSize: 14, color: '#9EA0A5'}}>
+                {profile.description}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.hireButton}
+              onPress={handleNavigate}>
+              <Text style={{color: 'white', padding: 13, fontSize: 22}}>
+                Edit profile
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.hireButton}
+              onPress={handleNavigateHistory}>
+              <Text style={{color: 'white', padding: 13, fontSize: 22}}>
+                Hire History
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.titleWrapper}>
-            <Text>{profile.job_desk || 'Worker Job Desk'}</Text>
-          </View>
-          <View style={styles.locationWrapper}>
-            {/* <Image
-          resizeMode="auto"
-          source={{
-            uri: '',
-          }}
-          style={styles.locationIcon}
-        /> */}
-            <View style={styles.locationText}>
-              <Text>{profile.domicile || 'Worker Domicile'}</Text>
+
+          <View style={styles.skillsContainer}>
+            <Text style={styles.skillsTitle}>Skill</Text>
+            <View style={styles.skillsList}>
+              {data.map(item => (
+                <View
+                  key={item.id}
+                  style={{
+                    paddingHorizontal: 12,
+                    paddingVertical: 4,
+                    backgroundColor: '#FDD074',
+                    borderColor: '#FBB017',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                  }}>
+                  <Text
+                    style={{fontWeight: 600, fontSize: 12, color: '#FFFFFF'}}>
+                    {item.skill_name}
+                  </Text>
+                </View>
+              ))}
             </View>
           </View>
-          <View style={styles.talentLabel}>
-            <Text>{profile.workplace || 'Worker Work Place'}</Text>
-          </View>
-          <View style={styles.description}>
-            <Text>{profile.description || 'Worker Description'}</Text>
-          </View>
-          <TouchableOpacity style={styles.hireButton} onPress={handleNavigate}>
-            <Text style={{color: 'white', padding: 13, fontSize: 22}}>
-              Edit
-            </Text>
-          </TouchableOpacity>
-          <View style={styles.skillLabel}>
-            <Text>Skill</Text>
-            <FlatList
-              data={skill}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({item}) => (
-                <CardSkill skillname={item.skill_name} accessible={true} />
-              )}
-              contentContainerStyle={{paddingVertical: 16}}
-              numColumns={2}
-              columnWrapperStyle={{justifyContent: 'space-between'}}
-            />
-          </View>
         </View>
+
         <View style={styles.profileTabContainer}>
           <View style={{}}>
             <View style={styles.tabContainer}>
@@ -171,6 +133,12 @@ const Profile = () => {
                   }>
                   Portfolio
                 </Text>
+                <View
+                  style={
+                    toggle === 1
+                      ? styles.activeTabIndicator
+                      : styles.inactiveTabIndicator
+                  }></View>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.tab}
@@ -181,16 +149,22 @@ const Profile = () => {
                   }>
                   Pengalaman Kerja
                 </Text>
+                <View
+                  style={
+                    toggle === 2
+                      ? styles.activeTabIndicator
+                      : styles.inactiveTabIndicator
+                  }></View>
               </TouchableOpacity>
             </View>
 
             {toggle === 1 && (
               <View style={styles.contentContainer}>
                 <View style={styles.list}>
-                  {portfolio.map(item => (
+                  {myPortfolio.map(item => (
                     <TouchableOpacity
-                      key={item.id}
-                      onPress={() => handleNavigate(item.link_repository)}>
+                      key={item.portfolio_id}
+                      onPress={() => handleNavigate(item.link)}>
                       <Image source={{uri: item.image}} style={styles.image} />
                     </TouchableOpacity>
                   ))}
@@ -201,108 +175,184 @@ const Profile = () => {
             {toggle === 2 && (
               <View style={styles.contentContainer}>
                 <View style={styles.list}>
-                  {/* <FlatList
-                    // data={experience}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) => (
-                      <View style={styles.experienceContainer}>
-                        <Image
-                          source={require('../../../assets/default-image.png')}
-                          style={styles.companyLogo}
-                        />
-                        <View style={styles.experienceDetails}>
-                          <Text style={styles.positionText}>
-                            {item.position}
-                          </Text>
-                          <Text style={styles.companyText}>{item.company}</Text>
-                          <View style={styles.dateContainer}>
-                            <Text style={styles.dateText}>
-                              {item.work_month}
-                            </Text>
-                            <Text style={styles.dateText}>
-                              {item.work_year}
-                            </Text>
-                          </View>
-                          <Text style={styles.descriptionText}>
-                            {item.description}
-                          </Text>
-                        </View>
+                  {myExperience.map(item => (
+                    <View
+                      key={item.experience_id}
+                      style={{flexDirection: 'row', gap: 20}}>
+                      <Image
+                        source={require('../../../assets/default-image.png')}
+                        style={styles.companyLogo}
+                      />
+                      <View style={{gap: 6, flex: 1}}>
+                        <Text
+                          style={{
+                            fontWeight: 600,
+                            fontSize: 20,
+                            color: '#1F2A36',
+                          }}>
+                          {item.position}
+                        </Text>
+                        <Text
+                          style={{
+                            fontWeight: 400,
+                            fontSize: 18,
+                            color: '#46505C',
+                          }}>
+                          {item.company}
+                        </Text>
+                        {/* <Text
+                          style={{
+                            fontWeight: 400,
+                            fontSize: 16,
+                            color: '#9EA0A5',
+                          }}>
+                          {formatDate(item.start_date)} -{' '}
+                          {formatDate(item.end_date)}
+                        </Text>
+                        <Text
+                          style={{
+                            fontWeight: 400,
+                            fontSize: 16,
+                            color: '#9EA0A5',
+                          }}>
+                          {item.duration_in_months} months
+                        </Text> */}
+                        <Text
+                          style={{
+                            fontWeight: 400,
+                            fontSize: 14,
+                            color: '#1F2A36',
+                          }}>
+                          {item.description}
+                        </Text>
                       </View>
-                    )}
-                  /> */}
+                    </View>
+                  ))}
                 </View>
               </View>
             )}
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#F6F7F8',
+  },
+  header: {
+    backgroundColor: '#5E50A1',
+    height: 361,
+  },
+  content: {
+    paddingTop: 70,
+    paddingBottom: 210,
+  },
+  profileContainer: {
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF',
+    padding: 30,
+    borderRadius: 10,
+    marginBottom: 30,
+  },
+  profileDetails: {
+    alignItems: 'center',
+    marginBottom: 34,
+  },
+  profileText: {
+    width: '100%',
+    alignItems: 'center',
+    marginVertical: 20,
+    gap: 12,
+  },
+  button: {
+    width: '100%',
+    marginTop: 20,
+  },
+  skillsContainer: {
+    marginBottom: 34,
+  },
+  skillsTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1F2A36',
+    marginBottom: 20,
+  },
+  skillsList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  socialContainer: {
+    marginBottom: 34,
+    gap: 24,
+  },
+  profileTabContainer: {
+    backgroundColor: '#FFFFFF',
+    padding: 30,
+    borderRadius: 10,
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 150,
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  tab: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  activeTabText: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#1F2A36',
+  },
+  inactiveTabText: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#9EA0A5',
+  },
+  activeTabIndicator: {
+    height: 4,
+    backgroundColor: '#5E50A1',
+    borderRadius: 2,
+    marginTop: 5,
+  },
+  inactiveTabIndicator: {
+    height: 4,
+    backgroundColor: 'transparent',
+    borderRadius: 2,
+    marginTop: 5,
+  },
   contentContainer: {
     flex: 1,
     marginTop: 20,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   list: {
     flexDirection: 'column',
     gap: 20,
   },
-  container: {
-    borderRadius: 8,
-    backgroundColor: '#FFF',
-    display: 'flex',
+  image: {
     width: '100%',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    fontSize: 14,
-    color: '#9EA0A5',
-    fontWeight: '400',
-    paddingHorizontal: 10,
+    aspectRatio: 4 / 3,
+    resizeMode: 'cover',
+    borderRadius: 4,
   },
-  profileImage: {
-    borderRadius: 75,
-    alignSelf: 'center',
-    position: 'relative',
-    width: 180,
-    height: 180,
-    marginTop: 30,
-  },
-  nameWrapper: {
-    color: '#1F2A36',
-    marginTop: 33,
-  },
-  titleWrapper: {
-    color: '#1F2A36',
-    fontFamily: 'Open Sans, sans-serif',
-    marginTop: 19,
-  },
-  locationWrapper: {
-    display: 'flex',
-    marginTop: 19,
-    alignItems: 'stretch',
-    gap: 11,
-  },
-  locationIcon: {
-    position: 'relative',
-    width: 16,
-    flexShrink: 0,
-    aspectRatio: 1,
-  },
-  locationText: {
-    fontFamily: 'Open Sans, sans-serif',
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
-  },
-  talentLabel: {
-    fontFamily: 'Open Sans, sans-serif',
-    marginTop: 19,
-  },
-  description: {
-    fontFamily: 'Open Sans, sans-serif',
-    marginTop: 29,
+  companyLogo: {
+    width: '40',
+    aspectRatio: 1 / 1,
+    resizeMode: 'cover',
   },
   hireButton: {
     borderRadius: 4,
@@ -313,67 +363,6 @@ const styles = StyleSheet.create({
     whiteSpace: 'nowrap',
     justifyContent: 'center',
     font: '700 16px Open Sans, sans-serif',
-  },
-  skillLabel: {
-    color: '#1F2A36',
-    marginTop: 41,
-    font: '600 18px/133% Open Sans, sans-serif',
-  },
-  skillsContainer: {
-    display: 'flex',
-    marginTop: 25,
-    alignItems: 'stretch',
-    gap: 6,
-    fontSize: 12,
-    color: '#FFF',
-    fontWeight: '600',
-    whiteSpace: 'nowrap',
-  },
-  skillBox: {
-    fontFamily: 'Open Sans, sans-serif',
-    borderRadius: 4,
-    borderColor: 'rgba(251, 176, 23, 1)',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    backgroundColor: 'rgba(251, 176, 23, 0.60)',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    padding: '8px 14px',
-  },
-  contactItem: {
-    display: 'flex',
-    marginTop: 60,
-    alignItems: 'stretch',
-    gap: 20,
-    whiteSpace: 'nowrap',
-  },
-  contactImage: {
-    position: 'relative',
-    width: 24,
-    flexShrink: 0,
-    aspectRatio: 1,
-  },
-  contactTextWrapper: {
-    fontFamily: 'Open Sans, sans-serif',
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    margin: 'auto 0',
-  },
-  tab: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginRight: 20,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  profileTabContainer: {
-    backgroundColor: '#FFFFFF',
-    padding: 30,
-    borderRadius: 10,
-    marginTop: 20,
   },
 });
 

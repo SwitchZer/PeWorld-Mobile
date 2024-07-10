@@ -35,12 +35,12 @@ function TabBar({state, descriptors, navigation}) {
         };
 
         const Icon = () => {
-          if (label === 'home')
+          if (label === 'Home')
             return <IcA stroke={isFocused ? '#673ab7' : '#222'} />;
-          if (label === 'profile')
-            return <IcMessage stroke={isFocused ? '#673ab7' : '#222'} />;
-          if (label === 'search')
+          if (label === 'Search')
             return <IcSearch stroke={isFocused ? '#673ab7' : '#222'} />;
+          if (label === 'Profile')
+            return <IcMessage stroke={isFocused ? '#673ab7' : '#222'} />;
         };
 
         return (

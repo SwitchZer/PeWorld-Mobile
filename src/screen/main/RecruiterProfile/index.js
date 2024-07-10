@@ -44,6 +44,10 @@ const Profile = () => {
     navigation.navigate('EditProfileRecruiter');
   };
 
+  const handleNavigateHistory = () => {
+    navigation.navigate('HistoryRecruiters');
+  };
+
   React.useEffect(() => {
     getProfile();
   }, []);
@@ -63,7 +67,7 @@ const Profile = () => {
           />
           <View style={styles.nameWrapper}>
             <Text style={{fontWeight: 'bold', fontSize: 30, color: 'black'}}>
-              {profile.name}
+              {profile.company}
             </Text>
           </View>
           <View style={styles.titleWrapper}>
@@ -89,19 +93,14 @@ const Profile = () => {
               Edit
             </Text>
           </TouchableOpacity>
-          <View style={styles.skillLabel}>
-            <Text>Skill</Text>
-            <FlatList
-              data={skill}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({item}) => (
-                <CardSkill skillname={item.skill_name} accessible={true} />
-              )}
-              contentContainerStyle={{paddingVertical: 16}}
-              numColumns={2}
-              columnWrapperStyle={{justifyContent: 'space-between'}}
-            />
-          </View>
+          <TouchableOpacity
+            style={styles.hireButton}
+            onPress={handleNavigateHistory}>
+            <Text style={{color: 'white', padding: 13, fontSize: 22}}>
+              Hire History
+            </Text>
+          </TouchableOpacity>
+          <View style={styles.skillLabel}></View>
         </View>
       </ScrollView>
     </SafeAreaView>

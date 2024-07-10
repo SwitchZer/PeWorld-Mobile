@@ -17,7 +17,7 @@ export const registerFailure = error => ({
 });
 
 export const loginUser =
-  ({email, password}, navigate) =>
+  ({email, password}) =>
   dispatch => {
     dispatch({
       type: 'LOGIN_REQUEST',

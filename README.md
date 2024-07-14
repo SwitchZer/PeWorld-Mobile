@@ -8,7 +8,7 @@ Peworld Mobile is a mobile application that facilitates the search and recruitme
 
 **Library:** React Native, Redux Thunk, Axios
 
-[![My Skills](https://skillicons.dev/icons?i=js,css,reactnative,redux,axios)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=js,css,react,redux,axios)](https://skillicons.dev)
 
 ## Features
 

@@ -1,79 +1,163 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Peworld Web
 
-# Getting Started
+Peworld Mobile is a mobile application that facilitates the search and recruitment of professional web/mobile developers. In this application, workers can easily upload their personal information, portfolio and work experience, which can then be searched and selected by users who act as recruiters. The Peworld mobile application provides access and convenience for users to engage in the recruitment process anytime and anywhere.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Tech Stack
 
-## Step 1: Start the Metro Server
+**Programming language:** JavaScript
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+**Library:** React Native, Redux Thunk, Axios
 
-To start Metro, run the following command from the _root_ of your React Native project:
+[![My Skills](https://skillicons.dev/icons?i=js,html,css,tailwind,react,redux)](https://skillicons.dev)
 
-```bash
-# using npm
-npm start
+## Features
 
-# OR using Yarn
-yarn start
-```
+🛄CRUD Portfolio
 
-## Step 2: Start your Application
+🛄CRUD Experience
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+🛄Update Profile + Image Profile
 
-### For Android
+🛄Pagination, Search and Sort Worker
 
-```bash
-# using npm
-npm run android
+🛄Hiring Workers by Recruiter
 
-# OR using Yarn
-yarn android
-```
+## Getting Started
 
-### For iOS
+To set up and run the project locally, follow these steps:
 
-```bash
-# using npm
-npm run ios
+### Prerequisites
 
-# OR using Yarn
-yarn ios
-```
+Before starting, make sure you have npm and the React Native CLI installed. You can install them globally using:
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+- npm
+  ```sh
+  npm install npm@latest -g
+  ```
+- React Native CLI
+  ```sh
+  npm install -g react-native-cli
+  ```
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+### Installation
 
-## Step 3: Modifying your App
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/SwitchZer/PeWorld-Mobile.git
+   ```
+2. Navigate into the project directory:
+   ```sh
+   cd PeWorld-Mobile
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   ```
+4. Set up environment variables:
+   - Create a `.env` file in the root directory of your project.
+   - Add your environment variables to the `.env` file following the structure in the `.env.example` file:
+   ```js
+   API_URL = 'https://your-api-url.com/';
+   ONESIGNAL_ID = 'your-onesignal-id';
+   ```
 
-Now that you have successfully run the app, let's modify it.
+### Development
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+5. Start the development server:
+   ```sh
+   npm run dev
+   ```
+6. Run the app on an Android device or emulator:
+   ```sh
+   npm run android
+   ```
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+### Production
 
-## Congratulations! :tada:
+7. Build the project:
+   ```sh
+   npm run build
+   ```
+8. Start the production server:
+   ```sh
+   npm run start
+   ```
 
-You've successfully run and modified your React Native App. :partying_face:
+By following these steps, you'll have everything set up to run the project locally on your machine.
 
-### Now what?
+## Screenshots
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+<table>
+   <tr>
+      <td>Splash Screen</td>
+      <td>Option Login</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/SplashScreen.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/LandingPage.png" border="0" alt="" /></td>
+   </tr>
+    <tr>
+      <td>Login</td>
+      <td>Register</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/Login.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Register.png" border="0" alt="" /></td>
+   </tr>
+   <tr>
+      <td>Home</td>
+      <td>Search</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/Home.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Search.png" border="0" alt="" /></td>
+   </tr>
+   <tr>
+      <td>Detail Worker</td>
+      <td>Profile</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/Detail.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Profile.png" border="0" alt="" /></td>
+   </tr>
+   <tr>
+      <td>Portfolio</td>
+      <td>Edit Profile</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/Portfoli.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Edit.png" border="0" alt="" /></td>
+   </tr>
+    <tr>
+      <td>Add Experience</td>
+      <td>Add Portfolio</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/AddExperience.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/AddPortfolio.png" border="0" alt="" /></td>
+   </tr>
+</table>
 
-# Troubleshooting
+## License
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-# Learn More
+## Contact
 
-To learn more about React Native, take a look at the following resources:
+Feel Free to Contact me using [alfredcnzagoto@gmail.com](alfredcnzagoto@gmail.com).
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Contributing
+
+Contributions are always welcome!
+
+## Related Project
+
+Project Related to this Project.
+
+[Peworld Backend](https://github.com/SwitchZer/hire-job-backend)
+
+[Peworld Web](https://github.com/SwitchZer/Hire-Job-App)
+
+[Food Recipe](https://github.com/SwitchZer/food-recipe)
+
+[Blanja Web](https://github.com/SwitchZer/blanja-fe/tree/main)

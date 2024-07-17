@@ -109,8 +109,8 @@ By following these steps, you'll have everything set up to run the project local
       <td>Search</td>
    </tr>
    <tr>
-      <td><img width="350px" src="/src/assets/screenshoot/Home.png" border="0" alt="" /></td>
-      <td><img width="350px" src="/src/assets/screenshoot/Search.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Home1.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Search1.png" border="0" alt="" /></td>
    </tr>
    <tr>
       <td>Detail Worker</td>
@@ -125,7 +125,7 @@ By following these steps, you'll have everything set up to run the project local
       <td>Edit Profile</td>
    </tr>
    <tr>
-      <td><img width="350px" src="/src/assets/screenshoot/Portfoli.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Portfolio.png" border="0" alt="" /></td>
       <td><img width="350px" src="/src/assets/screenshoot/Edit.png" border="0" alt="" /></td>
    </tr>
     <tr>

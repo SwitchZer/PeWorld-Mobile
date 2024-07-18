@@ -157,7 +157,3 @@ Project Related to this Project.
 [Peworld Backend](https://github.com/SwitchZer/hire-job-backend)
 
 [Peworld Web](https://github.com/SwitchZer/Hire-Job-App)
-
-[Food Recipe](https://github.com/SwitchZer/food-recipe)
-
-[Blanja Web](https://github.com/SwitchZer/blanja-fe/tree/main)

@@ -100,10 +100,18 @@ By following these steps, you'll have everything set up to run the project local
    </tr>
     <tr>
       <td>Login</td>
-      <td>Register</td>
+      <td>Register Worker</td>
    </tr>
    <tr>
       <td><img width="350px" src="/src/assets/screenshoot/Login.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Register.png" border="0" alt="" /></td>
+   </tr>
+       <tr>
+      <td>Register Recruiter</td>
+      <td>Hire</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/Register Recruiter.png" border="0" alt="" /></td>
       <td><img width="350px" src="/src/assets/screenshoot/Register.png" border="0" alt="" /></td>
    </tr>
    <tr>

@@ -22,6 +22,8 @@ Peworld Mobile is a mobile application that facilitates the search and recruitme
 
 🛄Hiring Workers by Recruiter
 
+🛄Notification
+
 ## Getting Started
 
 To set up and run the project locally, follow these steps:

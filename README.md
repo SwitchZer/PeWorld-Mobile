@@ -12,11 +12,11 @@ Peworld Mobile is a mobile application that facilitates the search and recruitme
 
 ## Features
 
-🛄CRUD Portfolio
+🛄Upload Portfolio + Image from Gallery and Experience
 
-🛄CRUD Experience
+🛄Update Profile
 
-🛄Update Profile + Image Profile
+🛄Update Image Profile using Camera or from Gallery
 
 🛄Pagination, Search and Sort Worker
 

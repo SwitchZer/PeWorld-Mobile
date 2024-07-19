@@ -1,4 +1,4 @@
-# Peworld Web
+# Peworld Mobile
 
 Peworld Mobile is a mobile application that facilitates the search and recruitment of professional web/mobile developers. In this application, workers can easily upload their personal information, portfolio and work experience, which can then be searched and selected by users who act as recruiters. The Peworld mobile application provides access and convenience for users to engage in the recruitment process anytime and anywhere.
 

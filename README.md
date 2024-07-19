@@ -140,9 +140,10 @@ By following these steps, you'll have everything set up to run the project local
    </tr>
    <tr>
       <td>Notification</td>
+      <td>Gallery</td>
    </tr>
    <tr>
-      <td><img width="350px" src="/src/assets/screenshoot/Notification.jpg" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Gallery.jpg" border="0" alt="" /></td>
    </tr>
 </table>
 

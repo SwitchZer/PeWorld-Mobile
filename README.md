@@ -138,6 +138,12 @@ By following these steps, you'll have everything set up to run the project local
       <td><img width="350px" src="/src/assets/screenshoot/AddExperience.png" border="0" alt="" /></td>
       <td><img width="350px" src="/src/assets/screenshoot/AddPortfolio.png" border="0" alt="" /></td>
    </tr>
+   <tr>
+      <td>Notification</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/Notification.jpg" border="0" alt="" /></td>
+   </tr>
 </table>
 
 ## License

@@ -151,7 +151,7 @@ By following these steps, you'll have everything set up to run the project local
       <td>Recruiter Edit</td>
    </tr>
    <tr>
-      <td><img width="350px" src="/src/assets/screenshoot/DetailwithRecruiter.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/RecrutierProfile.png" border="0" alt="" /></td>
       <td><img width="350px" src="/src/assets/screenshoot/RecruiterEdit.png" border="0" alt="" /></td>
    </tr>
    <tr>

@@ -108,11 +108,11 @@ By following these steps, you'll have everything set up to run the project local
    </tr>
        <tr>
       <td>Register Recruiter</td>
-      <td>Hire</td>
+      <td>Notification</td>
    </tr>
    <tr>
       <td><img width="350px" src="/src/assets/screenshoot/Register Recruiter.png" border="0" alt="" /></td>
-      <td><img width="350px" src="/src/assets/screenshoot/Hire.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Notification.jpg" border="0" alt="" /></td>
    </tr>
    <tr>
       <td>Home</td>
@@ -138,7 +138,7 @@ By following these steps, you'll have everything set up to run the project local
       <td><img width="350px" src="/src/assets/screenshoot/Portfolio.png" border="0" alt="" /></td>
       <td><img width="350px" src="/src/assets/screenshoot/Edit.png" border="0" alt="" /></td>
    </tr>
-    <tr>
+   <tr>
       <td>Add Experience</td>
       <td>Add Portfolio</td>
    </tr>
@@ -147,11 +147,26 @@ By following these steps, you'll have everything set up to run the project local
       <td><img width="350px" src="/src/assets/screenshoot/AddPortfolio.png" border="0" alt="" /></td>
    </tr>
    <tr>
-      <td>Notification</td>
+      <td>Recruiter Profile</td>
+      <td>Recruiter Edit</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/DetailwithRecruiter.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/RecruiterEdit.png" border="0" alt="" /></td>
+   </tr>
+   <tr>
+   <tr>
+      <td>Detail Worker with Recruiter</td>
+      <td>Hire</td>
+   </tr>
+   <tr>
+      <td><img width="350px" src="/src/assets/screenshoot/DetailwithRecruiter.png" border="0" alt="" /></td>
+      <td><img width="350px" src="/src/assets/screenshoot/Hire.png" border="0" alt="" /></td>
+   </tr>
+   <tr>
       <td>Gallery</td>
    </tr>
    <tr>
-    <td><img width="350px" src="/src/assets/screenshoot/Notification.jpg" border="0" alt="" /></td>
       <td><img width="350px" src="/src/assets/screenshoot/Gallery.jpg" border="0" alt="" /></td>
    </tr>
 </table>

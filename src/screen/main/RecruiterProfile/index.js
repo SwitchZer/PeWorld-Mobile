@@ -93,14 +93,13 @@ const Profile = () => {
               Edit
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.hireButton}
             onPress={handleNavigateHistory}>
             <Text style={{color: 'white', padding: 13, fontSize: 22}}>
               Hire History
             </Text>
-          </TouchableOpacity>
-          <View style={styles.skillLabel}></View>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </SafeAreaView>
